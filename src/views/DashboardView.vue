@@ -45,7 +45,25 @@ import VChart from 'vue-echarts'
 
 use([CanvasRenderer, BarChart, PieChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent])
 
-const summary = ref({ totalBudget: 0, totalSpent: 0, totalSavings: 0, trend: [] })
+interface MonthTrend {
+  month: number
+  totalSpent: number
+}
+
+interface DashboardSummary {
+  totalBudget: number
+  totalSpent: number
+  totalSavings: number
+  trend: MonthTrend[]
+}
+
+const summary = ref<DashboardSummary>({
+  totalBudget: 0,
+  totalSpent: 0,
+  totalSavings: 0,
+  trend: []
+})
+
 const barOption = ref({})
 const pieOption = ref({})
 
@@ -63,7 +81,9 @@ const updateCharts = () => {
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: summary.value.trend.map(item => new Date(0, item.month - 1).toLocaleString('default', { month: 'short' }))
+      data: summary.value.trend.map(item =>
+        new Date(0, item.month - 1).toLocaleString('default', { month: 'short' })
+      )
     },
     yAxis: { type: 'value' },
     series: [
@@ -100,6 +120,7 @@ const updateCharts = () => {
 
 onMounted(fetchSummary)
 </script>
+
 
 <style scoped>
 .stat-cards .el-card {
