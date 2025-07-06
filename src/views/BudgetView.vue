@@ -66,7 +66,7 @@
                 current?.totalSpent
               }}</el-descriptions-item>
               <el-descriptions-item label="Remaining">
-                {{ current?.budgetAmount - current?.totalSpent }}
+                {{ (current?.budgetAmount ?? 0) - (current?.totalSpent ?? 0) }}
               </el-descriptions-item>
             </el-descriptions>
           </el-card>
